@@ -15,15 +15,15 @@ interface CreateTransactionDTO {
 class TransactionsRepository {
   private transactions: Transaction[];
 
-  private balance: Balance;
+  // private balance: Balance;
 
   constructor() {
     this.transactions = [];
-    this.balance = {
-      income: 0,
-      outcome: 0,
-      total: 0,
-    };
+    // this.balance = {
+    //   income: 0,
+    //   outcome: 0,
+    //   total: 0,
+    // };
   }
 
   public all(): Transaction[] {
@@ -33,7 +33,29 @@ class TransactionsRepository {
 
   public getBalance(): Balance {
     // TODO
-    return this.balance;
+    // return this.balance;
+    const balance = this.transactions.reduce(
+      (accumulator: Balance, transaction: Transaction) => {
+        switch (transaction.type) {
+          case 'income':
+            accumulator.income += transaction.value;
+            break;
+          case 'outcome':
+            accumulator.outcome += transaction.value;
+            break;
+          default:
+            break;
+        }
+        accumulator.total = accumulator.income - accumulator.outcome;
+        return accumulator;
+      },
+      {
+        income: 0,
+        outcome: 0,
+        total: 0,
+      },
+    );
+    return balance;
   }
 
   public create({ title, value, type }: CreateTransactionDTO): Transaction {
@@ -42,13 +64,13 @@ class TransactionsRepository {
 
     this.transactions.push(transaction);
 
-    if (type === 'income') {
-      this.balance.income += value;
-    } else if (type === 'outcome') {
-      this.balance.outcome += value;
-    } else throw Error('Invalid type');
+    // if (type === 'income') {
+    //   this.balance.income += value;
+    // } else if (type === 'outcome') {
+    //   this.balance.outcome += value;
+    // } else throw Error('Invalid type');
 
-    this.balance.total = this.balance.income - this.balance.outcome;
+    // this.balance.total = this.balance.income - this.balance.outcome;
 
     return transaction;
   }
