@@ -18,6 +18,11 @@ class CreateTransactionService {
 
   public execute({ title, value, type }: Request): Transaction {
     // TODO
+
+    if (!['income', 'outcome'].includes(type)) {
+      throw Error('Invalid type');
+    }
+
     const { total } = this.transactionsRepository.getBalance();
 
     if (value <= 0) {

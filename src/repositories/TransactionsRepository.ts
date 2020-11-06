@@ -62,7 +62,7 @@ class TransactionsRepository {
     // TODO
     const transaction = new Transaction({ title, value, type });
 
-    if (type !== 'income' && type !== 'outcome') {
+    if (!['income', 'outcome'].includes(type)) {
       throw Error('Invalid type');
     }
 
