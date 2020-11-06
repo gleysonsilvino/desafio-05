@@ -64,6 +64,10 @@ class TransactionsRepository {
 
     this.transactions.push(transaction);
 
+    if (type !== 'income' && type !== 'outcome') {
+      throw Error('Invalid type');
+    }
+
     // if (type === 'income') {
     //   this.balance.income += value;
     // } else if (type === 'outcome') {
