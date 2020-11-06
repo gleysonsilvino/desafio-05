@@ -62,11 +62,11 @@ class TransactionsRepository {
     // TODO
     const transaction = new Transaction({ title, value, type });
 
-    this.transactions.push(transaction);
-
     if (type !== 'income' && type !== 'outcome') {
       throw Error('Invalid type');
     }
+
+    this.transactions.push(transaction);
 
     // if (type === 'income') {
     //   this.balance.income += value;
